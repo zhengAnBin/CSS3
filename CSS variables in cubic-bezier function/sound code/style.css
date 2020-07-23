@@ -1,0 +1,165 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap");
+
+:root {
+  --color: darkslategray;
+  --color-alt: whitesmoke;
+  --color-focus: dodgerblue;
+}
+
+.dark-mode {
+  --color: white;
+  --color-alt: black;
+  --color-focus: yellow;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background-color: var(--color-alt);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.scene {
+  --size: 50vmin;
+  --duration: 5500ms;
+  --bezier: calc(0.15 * var(--index) / 2);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  animation: scene calc(var(--duration) * 2) steps(1, end) infinite;
+}
+
+.square {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  border: 6px dotted var(--color);
+  transition: opacity 500ms ease-out;
+  animation: square var(--duration) alternate infinite;
+  animation-timing-function: cubic-bezier(
+    calc(0.1 * var(--index)),
+    calc(0.025 * var(--index)),
+    calc(0.1 * var(--index)),
+    1
+  );
+}
+@media (min-width: 40em) {
+  border-width: 1vmin;
+}
+
+@keyframes scene {
+  50%,
+  100% {
+    transform: scaleX(-1);
+  }
+}
+
+@keyframes square {
+  0% {
+    transform: translateY(15vh);
+  }
+  10% {
+    transform: translateY(0) scale(1);
+  }
+  20% {
+    transform: rotate(90deg);
+  }
+  30% {
+    transform: translateY(0) scale(0.5) rotate(45deg);
+  }
+  40% {
+    transform: translateY(0) scale(0.5);
+  }
+  50% {
+    transform: translate(0, -20vh) scale(0.5);
+  }
+  60% {
+    transform: translate(20vw, -20vh) scale(0.5) rotate(90deg);
+  }
+  70% {
+    transform: translate(-20vw, -20vh) scale(0.5) rotate(-90deg);
+  }
+  80% {
+    transform: translate(0, -30vh) scale(0.25);
+  }
+  90% {
+    transform: translate(0, -20vh) scale(0.5);
+  }
+  100% {
+    transform: translateY(-20vh) scale(0.25);
+  }
+}
+
+.controls {
+  --border: 2px solid var(--color);
+
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 1.5rem;
+  left: 0;
+  width: 100%;
+  color: var(--color);
+}
+
+.amount {
+  position: relative;
+  display: flex;
+}
+
+.amount-label {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  text-align: center;
+  width: 100%;
+}
+
+.count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: rgba(gray, 0.3);
+  border-top: var(--border);
+  border-bottom: var(--border);
+  border-style: dashed;
+  min-width: 52px;
+}
+
+.btn {
+  all: unset;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: transparent;
+  color: inherit;
+  border: var(--border);
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus {
+  outline: 2px dashed var(--color-focus);
+  outline-offset: 3px;
+}

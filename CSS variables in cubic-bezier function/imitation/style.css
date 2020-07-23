@@ -1,0 +1,174 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap");
+/* 引入一个字体库 */
+
+/* root 译为根源,是css选择器,选中的是根元素,也就是html标签
+  如果里面直接写属性和属性值
+  比如 :root { background: red }
+      此时整个界面的背景色被设置为红色
+      你可以在页面中看到效果
+      这相当于 html { background: red }
+  也可以用来声明一些全局变量
+  :root {--aa: red}
+    可以理解为JavaScript中的var --aa = red;
+    之后你就可以在其他地方去使用 --aa 这个变量
+    例如 div { color: var (--aa) }
+*/
+:root {
+  --color: darkslategray;
+  --color-alt: whitesmoke;
+  --color-focus: dodgerblue;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body{
+  height: 100%;
+}
+
+body {
+  display: grid;
+  /* place-items === align-items + justify-items */
+  place-items: center;
+  overflow: hidden;
+  background-color: var(--color-alt);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.scene {
+  --size: 50vmin;
+  --duration: 5500ms;
+  /* calc 是一个计算的函数 你填个 1 + 1  calc(1 + 1) 它就会把结果返回给你*/
+  --bezier: calc(0.15 * var(--index) / 2)
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+}
+
+.square {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .5;
+  border: 6px dotted var(--color);
+  transition: opacity 500ms ease-out;
+  animation: square var(--duration) alternate infinite;
+  
+  /* 这里就是整个动画效果的关键点了
+    影响到动画为什么看起来像拖着个影子在运动
+    --index 变量值设置在了行间样式中
+    呈阶梯 第一个square是 0 第二个square是 1 以此类推
+    之后代入cubic-bezier() 并通过calc计算
+    就可以产生一些阶梯差值
+    例如
+
+    第一个square的 --index 是 0
+    cubic-bezier(
+      calc(0.1 * var(--index)), 
+      calc(0.025 * var(--index)), 
+      calc(0.1 * var(--index)), 
+      1
+    )
+    等于 cubic-bezier(0,1)
+    
+    第二个square的 --index 是 1
+    代入等于 cubic-bezier(0.1, 0.025, 0.1, 1)
+
+    第三个square的 --index 是 2
+    代入等于 cubic-bezier(0.2, 0.05, 0.2, 1)
+
+    以这种贝塞尔曲线运动着
+    它就可以产生一个光影
+    例如： 扫把星，运动的很快，看起来就像一个拖着扫把的星星
+    以这种贝塞尔规则去定义动画，就可以简单模拟 “拖着扫把的盒子”
+    
+  */
+
+  animation-timing-function: cubic-bezier(calc(0.1 * var(--index)), 
+  calc(0.025 * var(--index)) , calc(0.1 * var(--index)) , 1
+  );
+  /* 定义什么样的运动速度 linear 全程保持匀速 */
+  /* 也可以自定义 就得使用cubic-bezier 值范围是 0 到 1 */
+  /* animation-timing-function:linear */
+}
+
+@media (min-width: 40em) {
+  .square {
+    border-width: 1vmin;
+  }
+}
+
+/* 这里就是一些 旋转 缩放 平移 的动画组合 */
+@keyframes square {
+  0% {
+    transform: translateY(15vh);
+  }
+  10% {
+    transform: translateY(0) scale(1);
+  }
+  20%{
+    transform: rotate(90deg);
+  }
+  30%{
+    transform: translateY(0) scale(0.5) rotate(45deg);
+  }
+  40% {
+    transform: translateY(0) scale(0.5);
+  }
+  50%{
+    transform: translate(0, -20vh) scale(0.5);
+  }
+  60%{
+    transform: translate(20vw, -20vh) scale(0.5) rotate(90deg);
+  }
+  70% {
+    transform: translate(-20vw, -20vh) scale(0.5) rotate(-90deg);
+  }
+  80% {
+    transform: translate(0, -30vh) scale(0.25);
+  }
+  90% {
+    transform: translate(0, -20vh) scale(0.5);
+  }
+  100% {
+    transform: translateY(-20vh) scale(0.25);
+  }
+}
+
+.dark-mode {
+  --color: white;
+  --color-alt: black;
+  --color-focus: yellow;
+}
+
+.controls{
+  border: 1px solid yellowgreen;
+}
+
+.btn {
+  all: unset;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: transparent;
+  color: inherit;
+  border: var(--border);
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus {
+  outline: 2px dashed var(--color-focus);
+  outline-offset: 3px;
+}

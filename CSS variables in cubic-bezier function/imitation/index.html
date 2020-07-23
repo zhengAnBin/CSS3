@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="scene">
+    <div class="square" style="--index: 0"></div>
+    <div class="square" style="--index: 1"></div>
+    <div class="square" style="--index: 2"></div>
+    <div class="square" style="--index: 3"></div>
+    <div class="square" style="--index: 4"></div>
+    <div class="square" style="--index: 5"></div>
+    <div class="square" style="--index: 6"></div>
+    <div class="square" style="--index: 7"></div>
+    <div class="square" style="--index: 8"></div>
+  </div>
+
+  <div class="controls">
+    <button class="btn btn-mode">Toggle colors</button>
+  </div>
+
+  <script>
+    document.querySelector(".btn-mode").addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+    });
+  </script>
+</body>
+</html>

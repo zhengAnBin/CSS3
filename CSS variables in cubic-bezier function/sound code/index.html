@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="controls">
+    <button class="btn btn-mode">Toggle colors</button>
+    <div class="amount">
+      <label class="amount-label">Squares</label>
+      <button class="btn btn-remove">−</button>
+      <div class="count">8</div>
+      <button class="btn btn-add">+</button>
+    </div>
+  </div>
+  <div class="scene">
+    <div class="square" style="--index: 0"></div>
+    <div class="square" style="--index: 1"></div>
+    <div class="square" style="--index: 2"></div>
+    <div class="square" style="--index: 3"></div>
+    <div class="square" style="--index: 4"></div>
+    <div class="square" style="--index: 5"></div>
+    <div class="square" style="--index: 6"></div>
+    <div class="square" style="--index: 7"></div>
+    <div class="square" style="--index: 8"></div>
+    <div class="square" style="--index: 9"></div>
+    <div class="square" style="--index: 10"></div>
+    <div class="square" style="--index: 11"></div>
+    <div class="square" style="--index: 12"></div>
+    <div class="square" style="--index: 13"></div>
+    <div class="square" style="--index: 14"></div>
+    <div class="square" style="--index: 15"></div>
+    <div class="square" style="--index: 16"></div>
+    <div class="square" style="--index: 17"></div>
+    <div class="square" style="--index: 18"></div>
+    <div class="square" style="--index: 19"></div>
+  </div>
+  <script>
+
+    const scene = document.querySelector(".scene");
+    const squares = document.querySelectorAll(".square");
+    const count = document.querySelector(".count");
+    const min = 1;
+    const max = 20;
+    let counter = 8;
+
+    const init = () => {
+      squares.forEach((square, index) => {
+        if (index >= counter) {
+          return;
+        }
+        square.style.opacity = 0.5;
+      });
+    };
+
+    document.querySelector(".btn-add").addEventListener("click", () => {
+      counter < max ? counter++ : max;
+      count.innerText = counter;
+      squares[counter - 1].style.opacity = 0.5;
+    });
+
+    document.querySelector(".btn-remove").addEventListener("click", () => {
+      counter > min ? counter-- : min;
+      count.innerText = counter;
+      squares[counter - 1].style.opacity = 0;
+    });
+
+    document.querySelector(".btn-mode").addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+    });
+
+    init();
+
+  </script>
+</body>
+</html>
